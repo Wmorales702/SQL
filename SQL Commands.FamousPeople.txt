@@ -1,0 +1,13 @@
+select relationships.name, persons.name
+from relationships
+join persons
+on relationships.partner = persons.id;
+
+/* Joins two relational tables showing which celebrities are in a relationship with each other*/
+
+select characters.name, persons.name
+from characters
+join persons
+on characters.actor_name = persons.id
+
+/* Joins two relational tables showing which charactor an actor played */

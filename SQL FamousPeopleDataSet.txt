@@ -1,0 +1,34 @@
+create table Persons (ID Integer Primary Key autoincrement, Name Text, Age Integer);
+
+Insert into persons (Name, Age) values ("Chris Evans", 38);
+Insert into persons (Name, Age) values ("Will Smith" , 57);
+Insert into persons (Name, Age) values ("Tom Hanks", 60);
+Insert into persons (Name, Age) values ("Brad Pitt" , 58);
+Insert into persons (Name, Age) values ("Jenifer Lopez", 56);
+Insert into persons (Name, Age) values ("Ben Afflack", 59);
+Insert into persons (Name, Age) values ("Taylor Swift", 33);
+Insert into persons (Name, Age) values ("Eddie Murphy" , 61);
+Insert into persons (Name, Age) values ("Emma Watson", 31);
+Insert into persons (Name, Age) values ("Angelina Jolie", 52);
+Insert into persons (Name, Age) values ("Megan Fox", 35);
+Insert into persons (Name, Age) values ("selena Gomez", 29);
+Insert into persons (Name, Age) values ("Carrie Underwood", 32);
+Insert into persons (Name, Age) values ("J.K. Rowling", 58);
+Insert into persons (Name, Age) values ("Stephen King", 72);
+Insert into persons (Name, Age) values ("Captian America", 112);
+Insert into persons (Name, Age) values ("Handcock", 10204);
+
+
+Create Table Relationships (ID integer primary key autoincrement, Name Text, Partner integer);
+
+Insert into Relationships (name, partner) values ("Angelina Jolie", 4);
+Insert into Relationships (name, partner) values ("Ben Afflack", 5);
+Insert into Relationships (name, partner) values ("Jennifer Lopez", 6);
+Insert into Relationships (name, partner) values ("Brad Pitt", 10);
+
+
+
+create table Characters (ID integer primary key autoincrement, Name Text, Actor_Name integer);
+
+Insert into Characters (Name, Actor_Name) Values ("Captian America", 1) ;
+Insert into Characters (Name, Actor_Name) Values ("Handcock", 2) ;
