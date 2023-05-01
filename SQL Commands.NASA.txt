@@ -1,0 +1,38 @@
+Select * from Astronauts where year >= 1990 And year < 2000;
+
+Select * from Astronauts where year < 1990 Or year >= 2000;
+
+/* Shows which astronauts where active in the 90's, and which astronauts where active outside of the 90's. */
+
+Select 
+count(military_branch) as Members, military_branch 
+from astronauts 
+group by military_branch 
+order by members; 
+
+/* Shows how many astronauts are in each of the Military branches */
+
+select name, space_flight_hr from astronauts;
+select max(space_flight_hr) from astronauts;
+select min(space_flight_hr) from astronauts;
+select avg(space_flight_hr) from astronauts;
+
+/* Shows the astronauts flight time and the min,max and average flight time */
+
+select sum(space_flight_hr) as Total_Flight_Hrs, military_branch 
+from Astronauts
+group by military_branch
+having Total_Flight_Hrs > 10000;
+
+/* Shows the total flight time from members of each Military branch for the most utilized branches */  
+
+
+Select name, space_flight_hr,
+Case When space_flight_hr > 1249 Then "Most Experienced" Else " Least Experienced"
+End As "Experience"
+from astronauts;
+
+/* Creates a column showing which austronauts have the most and least space flight experience */
+
+
+
