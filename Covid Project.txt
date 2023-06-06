@@ -1,0 +1,106 @@
+
+--Shows likelyhood of dying if you contract Covid in your country--
+
+Select Location, Date, Total_Cases, Total_Deaths, (Total_Deaths/Total_Cases)*100 As Death_Percentage
+From Covid
+Where Location Like '%state%' 
+Order by 1,2;
+
+
+-- Looking at Total Cases vs Population --
+--Shows what percentage of Population gets Covid--
+
+Select Location, Date, Population, Total_cases, (Total_Cases/Population)*100 As Population_Percentage 
+From Covid 
+Where Location Like '%state%' 
+Order by 1,2;
+
+-- Looking at countries with highest infection rate compared to population--
+
+Select Location, Population, Max(Total_Cases) as Highest_Infection_Count, (Total_Cases/Population)*100 As Population_Percentage_Infected 
+From Covid 
+Group by Location, Population 
+Order by Population_Percentage_Infected Desc;
+
+
+-- Showing countries with the highest death count-- 
+
+Select Location, Max(cast(Total_Deaths As Int)) As TotalDeathCount
+From Covid 
+Where Continent is Not Null
+Group by Location
+Order by TotalDeathCount Desc;
+
+-- Looking at Total Death Count by Continents --
+
+Select Continent, Max(Cast(Total_Deaths As Int)) As TotalDeathCount
+From Covid 
+--Where Location Like '%states%'
+Where Continent is Not Null
+Group by Continent
+Order by TotalDeathCount Desc;
+
+Select Location, Max(Cast(Total_Deaths As Int)) As TotalDeathCount
+From Covid 
+--Where Location Like '%states%'
+Group by Location
+Order by TotalDeathCount Desc;
+
+-- Showing the Continents with the highest Death Count per population --    
+
+Select Continent, Max(Cast(Total_Deaths As Int)) As TotalDeathCount
+From Covid 
+--Where Location Like '%states%'
+Where Continent is Not Null
+Group by Continent
+Order by TotalDeathCount Desc;
+
+-- Global Data --
+-- Global Death Percentage Globaly--
+
+Select Date, Sum(New_Cases) as Total_Cases, Sum(Cast(New_Deaths As Int)) As Total_Deaths, (Sum(Cast(New_Deaths As Int))/Sum(New_Cases))*100 As Death_Percentage
+From Covid 
+--Where Location Like '%state%' 
+Where Continent is Not Null
+Group by Date
+Order by 1,2;
+
+--Global Death Percentage, shows the likelihood of dying from Covid if infected-- 
+
+Select Sum(New_Cases) As Total_Cases, Sum(Cast(New_Deaths As Int)) As Total_Deaths, (Sum(Cast(New_Deaths As Int))/Sum(New_Cases))*100 As Death_Percentage
+From Covid 
+--Where Location Like '%state%' 
+Where Continent is Not Null
+--Group by Date
+Order by 1,2;
+
+--Looking at total Population vs Vaccinations--
+
+Select Continent, Location, Date, Population, New_Vaccinations,
+Sum(Cast(New_Vacinations As Int)) Over (Partition by Location Order by Location, Date) As Rolling_Ct_Vaccination
+From Covid
+Where Continent is Not Null
+Order by 1,2,3;
+
+
+--Using Common Table Expression--
+
+With PopvsVac (Continent, Location, Date, Population, New_Vaccinations, Rolling_Ct_Vaccination)
+As (
+Select Continent, Location, Date, Population, New_Vaccinations,
+Sum(Cast(New_Vaccinations As Int)) Over (Partition by Location Order by Location, Date) As Rolling_Ct_Vaccination
+From Covid
+Where Continent is Not Null
+--Order by 1,2,3
+)
+Select *, (Rolling_Ct_Vaccination/Population)*100 As Poulation_Vaccinated 
+From PopvsVac;
+
+-- Creating View to store data for later visualizations--
+
+Create View Pop_Vs_Vac As
+Select Continent, Location, Date, Population, New_Vaccinations,
+Sum(Cast(New_Vaccinations As Int)) Over (Partition by Location Order by Location, Date) As Rolling_Ct_Vaccination
+From Covid
+Where Continent is Not Null
+Order by 1,2,3;
